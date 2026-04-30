@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-const API_BASE = '/wp-json/wp/v2';
+import { wpApi } from '../utils/api';
 
 /* ── tiny HTML-strip helper ── */
 const stripHtml = (html = '') =>
@@ -49,7 +48,7 @@ const Home = () => {
 
   /* fetch blogs (posts) */
   useEffect(() => {
-    fetch(`${API_BASE}/posts?per_page=3&_embed`)
+    fetch(wpApi('/wp/v2/posts?per_page=3&_embed'))
       .then((r) => r.json())
       .then((data) => { if (Array.isArray(data)) setBlogs(data); })
       .catch(() => {});
@@ -57,16 +56,16 @@ const Home = () => {
 
   /* fetch stories (custom post type or category) */
   useEffect(() => {
-    fetch(`${API_BASE}/stories?per_page=2&_embed`)
+    fetch(wpApi('/stories?per_page=2&_embed'))
       .then((r) => r.json())
       .then((data) => { if (Array.isArray(data)) setStories(data); })
       .catch(() => {
         /* fallback: try category named 'stories' */
-        fetch(`${API_BASE}/categories?slug=stories`)
+        fetch(wpApi('/wp/v2/categories?slug=stories'))
           .then((r) => r.json())
           .then((cats) => {
             if (Array.isArray(cats) && cats.length) {
-              fetch(`${API_BASE}/posts?categories=${cats[0].id}&per_page=2&_embed`)
+              fetch(wpApi(`/wp/v2/posts?categories=${cats[0].id}&per_page=2&_embed`))
                 .then((r) => r.json())
                 .then((data) => { if (Array.isArray(data)) setStories(data); })
                 .catch(() => {});
@@ -78,11 +77,11 @@ const Home = () => {
 
   /* fetch projects / case-studies */
   useEffect(() => {
-    fetch(`${API_BASE}/case_study?per_page=5&_embed`)
+    fetch(wpApi('/wp/v2/case_study?per_page=5&_embed'))
       .then((r) => r.json())
       .then((data) => { if (Array.isArray(data)) setProjects(data); })
       .catch(() => {
-        fetch(`${API_BASE}/posts?categories=case-study&per_page=5&_embed`)
+        fetch(wpApi('/wp/v2/posts?categories=case-study&per_page=5&_embed'))
           .then((r) => r.json())
           .then((data) => { if (Array.isArray(data)) setProjects(data); })
           .catch(() => {});

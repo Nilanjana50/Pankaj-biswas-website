@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { wpApi } from '../utils/api';
 
 const Contact = () => {
   const [pageData, setPageData] = useState(null);
@@ -30,7 +31,7 @@ const Contact = () => {
     e.preventDefault(); 
     try {
       // Bypasses 401 Unauthorized: Gravity Forms submissions endpoint is publicly accessible via POST
-      const res = await fetch('/wp-json/gf/v2/forms/1/submissions', {
+      const res = await fetch(wpApi('/gf/v2/forms/1/submissions'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +75,7 @@ const Contact = () => {
     const fetchContactPage = async () => {
       try {
         const res = await fetch(
-          '/wp-json/wp/v2/pages/8',
+          wpApi('/wp/v2/pages/8'),
           { signal: controller.signal }
         );
 

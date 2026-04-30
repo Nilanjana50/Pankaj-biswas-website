@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { wpApi } from '../utils/api';
 
 const FALLBACK_STORIES = [
   {
@@ -18,6 +19,7 @@ const FALLBACK_STORIES = [
 ];
 
 const Stories = () => {
+  const [pageData, setPageData] = useState(null);
   const [stories, setStories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -28,6 +30,22 @@ const Stories = () => {
   const category = 'travel';
 
   useEffect(() => {
+    const fetchPageData = async () => {
+      try {
+        const res = await fetch(wpApi('/wp/v2/pages/3830'));
+        if (res.ok) {
+          const page = await res.json();
+          setPageData(page);
+        }
+      } catch (err) {
+        console.warn('Stories page metadata fetch failed:', err);
+      }
+    };
+
+    fetchPageData();
+  }, []);
+
+  useEffect(() => {
     const fetchStories = async () => {
       setLoading(true);
       setError(false);
@@ -36,7 +54,7 @@ const Stories = () => {
         let categoryId = '';
 
         if (category) {
-          const catRes = await fetch(`/wp-json/wp/v2/categories?slug=${category}`);
+          const catRes = await fetch(wpApi(`/wp/v2/categories?slug=${category}`));
 
           if (catRes.ok) {
             const catData = await catRes.json();
@@ -50,7 +68,7 @@ const Stories = () => {
         const categoryQuery = categoryId ? `&categories=${categoryId}` : '';
 
         const response = await fetch(
-          `/wp-json/wp/v2/posts?per_page=${postsPerPage}&_embed=1${categoryQuery}&orderby=date&order=desc&page=${currentPage}`
+          wpApi(`/wp/v2/posts?per_page=${postsPerPage}&_embed=1${categoryQuery}&orderby=date&order=desc&page=${currentPage}`)
         );
 
         if (!response.ok) {
@@ -108,12 +126,16 @@ const Stories = () => {
     return 'Travel, Trekking Tales';
   };
 
+  const pageTitle = pageData?.title?.rendered || 'Stories';
+  const pageSubtitle = pageData?.excerpt?.rendered ||
+    'Insights on technology, strategy, and digital transformation';
+
   return (
     <>
       {/* ── PAGE HEADER ── */}
       <div className="page-hero-bar">
         <div className="container-fluid px-5">
-          <h1 className="page-hero-bar__title">Stories</h1>
+          <h1 className="page-hero-bar__title" dangerouslySetInnerHTML={{ __html: pageTitle }} />
           <div className="page-hero-bar__line" />
         </div>
       </div>
@@ -124,9 +146,7 @@ const Stories = () => {
           {/* Section heading */}
           <div className="stories-page-header">
             <h2 className="stories-page-heading">Stories</h2>
-            <p className="stories-page-subheading">
-              Insights on technology, strategy, and digital transformation
-            </p>
+            <p className="stories-page-subheading" dangerouslySetInnerHTML={{ __html: pageSubtitle }} />
             <div className="stories-page-divider" />
           </div>
 

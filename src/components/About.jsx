@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { wpApi } from '../utils/api';
 
 const FALLBACK_ABOUT = {
   title: 'About Me',
@@ -18,7 +19,7 @@ const About = () => {
       setLoading(true);
 
       try {
-        const res = await fetch('/wp-json/wp/v2/pages?slug=about', {
+        const res = await fetch(wpApi('/wp/v2/pages?slug=about'), {
           signal: controller.signal,
         });
 

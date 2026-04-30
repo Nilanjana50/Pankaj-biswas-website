@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { wpApi } from '../utils/api';
 
 const FALLBACK_PROJECTS = [
   {
@@ -52,9 +53,9 @@ const Projects = () => {
 
       try {
         const endpoints = [
-          '/wp-json/wp/v2/case_study?per_page=12&_embed=1',
-          '/wp-json/wp/v2/case-study?per_page=12&_embed=1',
-          '/wp-json/wp/v2/posts?per_page=12&_embed=1',
+          wpApi('/wp/v2/case_study?per_page=12&_embed=1'),
+          wpApi('/wp/v2/case-study?per_page=12&_embed=1'),
+          wpApi('/wp/v2/posts?per_page=12&_embed=1'),
         ];
 
         let finalData = null;
