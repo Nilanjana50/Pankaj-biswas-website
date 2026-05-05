@@ -21787,7 +21787,7 @@ body {
    ================================================================ */
 
 .page-hero-bar {
-  background: #ffffff;
+  background: #1A3724;
   border-bottom: 3px solid var(--color-gold);
   padding: 2.2rem 0 1.8rem;
 }
@@ -21796,7 +21796,7 @@ body {
   font-family: var(--font-serif);
   font-size: 2.2rem;
   font-weight: 800;
-  color: var(--color-dark);
+  color: #fff;
   margin: 0 0 0.55rem;
 }
 
@@ -21863,7 +21863,7 @@ body {
   font-family: var(--font-serif);
   font-size: 2.1rem;
   font-weight: 800;
-  color: #ffffff;
+  color: white;
   margin: 0 0 0.45rem;
 }
 
@@ -22118,19 +22118,45 @@ body {
 .projects-stats-bar {
   background: rgba(0, 0, 0, 0.32);
   border-top: 1px solid rgba(212, 175, 55, 0.18);
-  padding: 1.3rem 0;
+  padding: 1.8rem 0;
 }
 
 .projects-stats-row {
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.projects-stat--left {
+  flex-shrink: 0;
+  padding-right: 0;
+}
+
+.projects-stats-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  position: relative;
+}
+
+.projects-stats-center::before {
+  content: '';
+  width: 1px;
+  height: 38px;
+  background: rgba(212, 175, 55, 0.28);
+  margin-right: 3rem;
+  align-self: center;
 }
 
 .projects-stat {
   display: flex;
   flex-direction: column;
   gap: 0.18rem;
-  padding-right: 3rem;
+  padding: 0 1rem;
+  align-items: center;
+  text-align: center;
 }
 
 .projects-stat__value {
@@ -22153,7 +22179,6 @@ body {
   width: 1px;
   height: 38px;
   background: rgba(212, 175, 55, 0.28);
-  margin-right: 3rem;
   flex-shrink: 0;
 }
 
@@ -22209,8 +22234,11 @@ body {
 
 .projects-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 360px));
+  justify-content: center;
   gap: 1.5rem;
+  max-width: 1140px;
+  margin: 0 auto;
 }
 
 /* Project card */
