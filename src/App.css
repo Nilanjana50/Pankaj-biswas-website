@@ -3785,9 +3785,9 @@ p {
 
   position: relative;
 
-  width: 100%;
+  width: 30%;
 
-  height: 100%;
+  height: 30%;
 
   overflow: hidden;
 
@@ -3799,9 +3799,9 @@ p {
 
 .about-image-frame img {
 
-  width: 100%;
+  width: 50%;
 
-  height: 100%;
+  height: 50%;
 
   object-fit: cover;
 
@@ -4823,7 +4823,7 @@ p {
 
   width: 100%;
 
-  height: 450px;
+  height: 200px;
 
   overflow: hidden;
 
