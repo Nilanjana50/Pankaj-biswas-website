@@ -149,19 +149,20 @@ const Projects = () => {
         <div className="projects-stats-bar">
           <div className="container-fluid px-5">
             <div className="projects-stats-row">
-              <div className="projects-stat">
+              <div className="projects-stat projects-stat--left">
                 <span className="projects-stat__value">500+</span>
                 <span className="projects-stat__label">PROJECTS COMPLETED</span>
               </div>
-              <div className="projects-stat-divider" />
-              <div className="projects-stat">
-                <span className="projects-stat__value">$100M+</span>
-                <span className="projects-stat__label">REVENUE GENERATED</span>
-              </div>
-              <div className="projects-stat-divider" />
-              <div className="projects-stat">
-                <span className="projects-stat__value">50+</span>
-                <span className="projects-stat__label">GLOBAL CLIENTS</span>
+              <div className="projects-stats-center">
+                <div className="projects-stat">
+                  <span className="projects-stat__value">$100M+</span>
+                  <span className="projects-stat__label">REVENUE GENERATED</span>
+                </div>
+                <div className="projects-stat-divider" />
+                <div className="projects-stat">
+                  <span className="projects-stat__value">50+</span>
+                  <span className="projects-stat__label">GLOBAL CLIENTS</span>
+                </div>
               </div>
             </div>
           </div>
