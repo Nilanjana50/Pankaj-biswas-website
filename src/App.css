@@ -3785,9 +3785,9 @@ p {
 
   position: relative;
 
-  width: 100%;
+  width: 30%;
 
-  height: 100%;
+  height: 30%;
 
   overflow: hidden;
 
@@ -3799,9 +3799,9 @@ p {
 
 .about-image-frame img {
 
-  width: 100%;
+  width: 50%;
 
-  height: 100%;
+  height: 50%;
 
   object-fit: cover;
 
@@ -4823,7 +4823,7 @@ p {
 
   width: 100%;
 
-  height: 450px;
+  height: 200px;
 
   overflow: hidden;
 
@@ -22499,7 +22499,8 @@ body {
 /* ── Vision / Intro section ── */
 .about-vision-section {
   background: #111111;
-  padding: 5rem 0;
+  padding: 3rem 0 3.5rem 0;
+  min-height: 720px;
   position: relative;
 }
 
@@ -22513,11 +22514,36 @@ body {
   background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
 }
 
+..about-vision-section .container-fluid,
+.about-why-section .container-fluid,
+.about-services-section .container-fluid,
+.about-cta-section .container-fluid {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
 .about-vision-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 3rem;
   align-items: center;
+}
+
+.about-vision-text {
+  max-width: 620px;
+}
+
+.about-vision-image-wrap {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.about-vision-section .about-image-frame {
+  max-width: 520px;
+  width: 100%;
 }
 
 .about-badge {
@@ -22911,3 +22937,11 @@ body {
     font-size: 1.8rem;
   }
 }
+
+.about-hero-section {
+  padding: 2.4rem 0 2.8rem 0;
+  min-height: 240px;
+}
+
+
+

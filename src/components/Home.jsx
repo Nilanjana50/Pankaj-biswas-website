@@ -54,36 +54,50 @@ const Home = () => {
       .catch(() => {});
   }, []);
 
-  /* fetch stories (custom post type or category) */
+  /* fetch stories (Mountain Wisdom section) — category-based only, no CPT */
   useEffect(() => {
-    fetch(wpApi('/stories?per_page=2&_embed'))
-      .then((r) => r.json())
-      .then((data) => { if (Array.isArray(data)) setStories(data); })
-      .catch(() => {
-        /* fallback: try category named 'stories' */
-        fetch(wpApi('/wp/v2/categories?slug=stories'))
-          .then((r) => r.json())
-          .then((cats) => {
-            if (Array.isArray(cats) && cats.length) {
-              fetch(wpApi(`/wp/v2/posts?categories=${cats[0].id}&per_page=2&_embed`))
-                .then((r) => r.json())
-                .then((data) => { if (Array.isArray(data)) setStories(data); })
-                .catch(() => {});
-            }
+    fetch(wpApi('/wp/v2/categories?slug=stories'))
+      .then((r) => {
+        if (!r.ok) throw new Error('categories endpoint unavailable');
+        return r.json();
+      })
+      .then((cats) => {
+        if (!Array.isArray(cats) || !cats.length) return; // no 'stories' category — show fallback
+        return fetch(wpApi(`/wp/v2/posts?categories=${cats[0].id}&per_page=2&_embed`))
+          .then((r) => {
+            if (!r.ok) throw new Error('posts endpoint unavailable');
+            return r.json();
           })
-          .catch(() => {});
-      });
+          .then((data) => {
+            if (Array.isArray(data) && data.length) setStories(data);
+          });
+      })
+      .catch(() => {}); // silently fall through to static fallback cards
   }, []);
 
   /* fetch projects / case-studies */
   useEffect(() => {
     fetch(wpApi('/wp/v2/case_study?per_page=5&_embed'))
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error('case_study CPT unavailable');
+        return r.json();
+      })
       .then((data) => { if (Array.isArray(data)) setProjects(data); })
       .catch(() => {
-        fetch(wpApi('/wp/v2/posts?categories=case-study&per_page=5&_embed'))
-          .then((r) => r.json())
-          .then((data) => { if (Array.isArray(data)) setProjects(data); })
+        fetch(wpApi('/wp/v2/categories?slug=case-study'))
+          .then((r) => {
+            if (!r.ok) throw new Error('categories endpoint unavailable');
+            return r.json();
+          })
+          .then((cats) => {
+            if (!Array.isArray(cats) || !cats.length) return;
+            return fetch(wpApi(`/wp/v2/posts?categories=${cats[0].id}&per_page=5&_embed`))
+              .then((r) => {
+                if (!r.ok) throw new Error('posts endpoint unavailable');
+                return r.json();
+              })
+              .then((data) => { if (Array.isArray(data)) setProjects(data); });
+          })
           .catch(() => {});
       });
   }, []);
